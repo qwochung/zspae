@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
-@NoArgsConstructor
 public class ApiResponse<T> {
     @Builder.Default
     int status = 200;

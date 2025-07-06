@@ -1,14 +1,20 @@
 package com.example.authservice.entity;
 
 import com.example.authservice.constant.Status;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+@MappedSuperclass
+@Data
 public class BaseEntity {
-    int id;
-    LocalDate createdAt;
-    LocalDate updatedAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    Long createdAt;
+    Long updatedAt;
+    @Enumerated(EnumType.STRING)
     Status status;
 
 }
