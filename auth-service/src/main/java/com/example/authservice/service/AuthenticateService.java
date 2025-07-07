@@ -10,5 +10,5 @@ public interface AuthenticateService {
     AuthenticateResponse login (LoginRequest loginRequest);
     AuthenticateResponse refreshToken (RequestToken refreshToken);
     Boolean verifyToken (RequestToken token);
-
+    void logout(RequestToken token);
 }
