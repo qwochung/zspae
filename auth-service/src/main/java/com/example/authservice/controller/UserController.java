@@ -21,7 +21,7 @@ public class UserController {
     UserService userService;
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "")
+    @RequestMapping(method = RequestMethod.POST, value = "/registration")
     public ApiResponse<UserResponse> addUser(@RequestBody CreateUserRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.create(request))

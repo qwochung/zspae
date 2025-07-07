@@ -44,4 +44,13 @@ public class AuthenticateController {
     }
 
 
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public ApiResponse<Boolean> logout (@RequestBody RequestToken request) {
+        authenticateService.logout(request);
+        return ApiResponse.<Boolean>builder()
+                .result(true)
+                .build();
+    }
+
+
 }

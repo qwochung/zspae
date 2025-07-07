@@ -72,8 +72,27 @@ public class AuthenticateServiceImpl  implements AuthenticateService {
             SignedJWT signedJWT = verify(request.getToken());
             return true;
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error("Verify failed: {}",e.getMessage());
             return false;
+        }
+    }
+
+    @Override
+    public void logout(RequestToken request) {
+        try{
+            SignedJWT signedJWT = verify(request.getToken());
+            String tokenId = signedJWT.getJWTClaimsSet().getJWTID();
+            Date expireTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+            InvalidToken invalidToken = InvalidToken.builder()
+                    .id(tokenId)
+                    .expiresTime(expireTime)
+                    .build();
+
+            invalidTokenService.createInvalidToken(invalidToken);
+        }catch (Exception e){
+            log.error("Logout failed: {}", e.getMessage());
+            throw new AppException(ErrorCode.AUTHENTICATION_FAILED);
         }
     }
 
