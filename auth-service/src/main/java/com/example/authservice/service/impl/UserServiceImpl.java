@@ -17,14 +17,12 @@ import com.example.authservice.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +32,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     RoleMapper roleMapper;
     RoleService roleService;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public User save(User user) {
@@ -46,12 +45,12 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
 
-
         User user = userMapper.toUser(request);
         Role role = roleMapper.toRole(roleService.findById(String.valueOf(ERole.USER)));
         user.setRoles(Set.of(role));
         user.setCreatedAt(System.currentTimeMillis());
         user.setStatus(Status.PENDING);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
