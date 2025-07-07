@@ -1,0 +1,10 @@
+package com.example.authservice.service;
+
+import com.example.authservice.dto.request.CreateUserRequest;
+import com.example.authservice.dto.request.LoginRequest;
+import com.example.authservice.dto.response.UserResponse;
+
+public interface AuthenticateService {
+    UserResponse login (LoginRequest loginRequest);
+
+}
