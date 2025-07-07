@@ -1,8 +1,9 @@
 package com.example.authservice.controller;
 
 import com.example.authservice.dto.request.LoginRequest;
+import com.example.authservice.dto.request.RequestToken;
 import com.example.authservice.dto.response.ApiResponse;
-import com.example.authservice.dto.response.UserResponse;
+import com.example.authservice.dto.response.AuthenticateResponse;
 import com.example.authservice.service.AuthenticateService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,24 @@ public class AuthenticateController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public ApiResponse<UserResponse> login (@RequestBody LoginRequest loginRequest) {
-        return ApiResponse.<UserResponse>builder()
+    public ApiResponse<AuthenticateResponse> login (@RequestBody LoginRequest loginRequest) {
+        return ApiResponse.<AuthenticateResponse>builder()
                 .result(authenticateService.login(loginRequest))
+                .build();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/verify")
+    public ApiResponse<Boolean> verifyToken (@RequestBody RequestToken request) {
+        return ApiResponse.<Boolean>builder()
+                .result(authenticateService.verifyToken(request))
+                .build();
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/refresh-token")
+    public ApiResponse<AuthenticateResponse> refreshToken (@RequestBody RequestToken request) {
+        return ApiResponse.<AuthenticateResponse>builder()
+                .result(authenticateService.refreshToken(request))
                 .build();
     }
 
